@@ -223,14 +223,6 @@ async def run_pipeline(session: AsyncSession = Depends(get_db_session)) -> dict:
         enqueue_outreach,
         enqueue_outbox_send,
     )
-    from amis_agent.application.services.demo_seed import seed_demo_data
-    from amis_agent.core.config import get_settings
-
-    settings = get_settings()
-    seeded = None
-    if settings.demo_mode:
-        seeded = await seed_demo_data(session, force=False)
-
     jobs = [
         enqueue_discovery(),
         enqueue_qualification(),
@@ -238,18 +230,7 @@ async def run_pipeline(session: AsyncSession = Depends(get_db_session)) -> dict:
         enqueue_outreach(),
         enqueue_outbox_send(),
     ]
-    return {
-        "enqueued": [job.id for job in jobs if job is not None],
-        "demo_seed": seeded,
-    }
-
-
-@router.post("/demo/seed")
-async def seed_demo(session: AsyncSession = Depends(get_db_session)) -> dict:
-    from amis_agent.application.services.demo_seed import seed_demo_data
-
-    result = await seed_demo_data(session, force=True)
-    return {"result": result}
+    return {"enqueued": [job.id for job in jobs if job is not None]}
 
 
 @router.get("/companies")
@@ -321,5 +302,4 @@ async def settings_view() -> dict:
         "enable_sending": settings.enable_sending,
         "s3_enabled": settings.s3_enabled,
         "gmail_sender": settings.gmail_sender,
-        "demo_mode": settings.demo_mode,
     }

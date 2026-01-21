@@ -112,7 +112,7 @@ async def _generate_drafts(session) -> None:
         .join(CompanyModel, LeadModel.company_id == CompanyModel.id)
         .outerjoin(ContactModel, LeadModel.contact_id == ContactModel.id)
         .where(LeadModel.status == "enriched")
-        .where(LeadModel.contact_status == "found")
+        .where(LeadModel.contact_status.in_(["found", "missing_email"]))
     )
     rows = (await session.execute(stmt)).all()
     for lead, company, contact in rows:
