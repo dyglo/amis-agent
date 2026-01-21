@@ -215,11 +215,12 @@ export default function App() {
                   setError(null);
                   setPipelineStatus(`triggered at ${new Date().toLocaleTimeString()}`);
                   apiPost<{ enqueued: string[] }>("/api/run/pipeline", token)
-                    .then((res) =>
+                    .then((res) => {
+                      const ids = res.enqueued.join(", ");
                       setPipelineStatus(
-                        `enqueued ${res.enqueued.length} jobs at ${new Date().toLocaleTimeString()}`
-                      )
-                    )
+                        `enqueued ${res.enqueued.length} jobs (${ids}) at ${new Date().toLocaleTimeString()}`
+                      );
+                    })
                     .catch((err) => setError(err.message));
                 }}
               >
