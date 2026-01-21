@@ -1,0 +1,20 @@
+__pycache__/
+.venv/
+.env
+.env.*
+*.pyc
+*.pyo
+*.pyd
+*.sqlite
+*.log
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Secrets
+secrets/
+public/gmail_credentials.json
+
+# Node
+node_modules/
+

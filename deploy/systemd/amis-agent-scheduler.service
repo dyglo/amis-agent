@@ -1,0 +1,15 @@
+[Unit]
+Description=AMIS Agent Scheduler Loop
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/amis-agent
+ExecStart=/opt/amis-agent/.venv/bin/python -m amis_agent.workers.scheduler_loop
+Restart=always
+RestartSec=5
+EnvironmentFile=/opt/amis-agent/.env
+
+[Install]
+WantedBy=multi-user.target
+

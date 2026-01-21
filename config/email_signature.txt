@@ -1,0 +1,5 @@
+name=Tafar M
+title=Founder & AI Engineer
+org=AMIS Intelligence
+website=
+location=
