@@ -208,12 +208,14 @@ export default function App() {
             <div className="card space-y-4">
               <h2 className="text-xl font-semibold">Quick actions</h2>
               <button
+                type="button"
                 className="btn"
-                onClick={() =>
+                onClick={() => {
+                  setError(null);
                   apiPost("/api/run/pipeline", token)
-                    .then(() => setError(null))
-                    .catch((err) => setError(err.message))
-                }
+                    .then(() => void 0)
+                    .catch((err) => setError(err.message));
+                }}
               >
                 Run pipeline once
               </button>
