@@ -1,0 +1,14 @@
+[Unit]
+Description=AMIS Agent API
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/amis-agent
+ExecStart=/opt/amis-agent/.venv/bin/uvicorn amis_agent.main:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+EnvironmentFile=/opt/amis-agent/.env
+
+[Install]
+WantedBy=multi-user.target

@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from amis_agent.api.routes import router as api_router
+from amis_agent.api.routes.health import router as health_router
 from amis_agent.core.config import get_settings
 from amis_agent.core.logging import configure_logging, get_logger
 from amis_agent.core.metrics import setup_metrics
@@ -23,6 +24,7 @@ def create_app() -> FastAPI:
 
     app = FastAPI(title="AMIS Digital Me Agent", version="0.1.0", lifespan=lifespan)
     setup_metrics(app)
+    app.include_router(health_router, tags=["health"])
     app.include_router(api_router, prefix="/api")
     return app
 

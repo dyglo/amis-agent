@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     send_error_window_s: int = Field(default=3600, alias="SEND_ERROR_WINDOW_S")
     send_queue_name: str = Field(default="send", alias="SEND_QUEUE_NAME")
     enable_sending: bool = Field(default=False, alias="ENABLE_SENDING")
+    admin_token: str = Field(default="", alias="ADMIN_TOKEN")
 
     llm_base_url: str = Field(default="https://api.openai.com", alias="LLM_BASE_URL")
     llm_api_key: str = Field(default="", alias="LLM_API_KEY")

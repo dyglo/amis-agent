@@ -8,6 +8,38 @@ Production-grade system for automated lead discovery, qualification, and outreac
 - Configure `.env`
 - Run API: `uvicorn amis_agent.main:app --reload`
 
+## Admin API
+- All admin endpoints require `X-ADMIN-TOKEN` header.
+- Configure `ADMIN_TOKEN` in `.env`.
+- Core endpoints:
+  - `GET /health`
+  - `GET /api/stats`
+  - `GET /api/outbox?status=ready_for_review&limit=50`
+  - `GET /api/outbox/{id}`
+  - `POST /api/outbox/{id}/approve`
+  - `POST /api/outbox/{id}/regenerate`
+  - `POST /api/outbox/{id}/send` (requires `ENABLE_SENDING=true`)
+  - `POST /api/run/pipeline`
+  - `GET /api/companies`
+  - `GET /api/leads`
+  - `GET /api/settings`
+
+## React UI
+- UI lives in `ui/` (Vite + React + Tailwind).
+- Build locally:
+  - `cd ui`
+  - `npm install`
+  - `npm run build`
+- The UI expects the API at `/api` and uses `X-ADMIN-TOKEN` stored in localStorage.
+
+## Deployment (EC2)
+- API runs as `amis-agent-api` systemd service.
+- Scheduler runs as `amis-agent-scheduler` systemd service.
+- Nginx serves UI and proxies `/api` to FastAPI.
+- Deploy script on EC2:
+  - `bash scripts/ec2_deploy_ui.sh`
+  - This pulls latest, builds UI, installs Nginx, and restarts services.
+
 ## Architecture
 - Clean architecture (domain/application/infrastructure)
 - Async FastAPI API
