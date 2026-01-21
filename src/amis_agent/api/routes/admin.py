@@ -217,19 +217,19 @@ async def send_outbox(outbox_id: int, session: AsyncSession = Depends(get_db_ses
 @router.post("/run/pipeline")
 async def run_pipeline() -> dict:
     from amis_agent.application.services.jobs import (
-        enqueue_discover,
-        enqueue_enrich,
+        enqueue_discovery,
+        enqueue_qualification,
+        enqueue_enrichment,
         enqueue_outreach,
-        enqueue_qualify,
-        enqueue_send_outbox,
+        enqueue_outbox_send,
     )
 
     jobs = [
-        enqueue_discover(),
-        enqueue_qualify(),
-        enqueue_enrich(),
+        enqueue_discovery(),
+        enqueue_qualification(),
+        enqueue_enrichment(),
         enqueue_outreach(),
-        enqueue_send_outbox(),
+        enqueue_outbox_send(),
     ]
     return {"enqueued": [job.id for job in jobs if job is not None]}
 
