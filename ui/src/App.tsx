@@ -55,6 +55,7 @@ type SettingsView = {
   enable_sending: boolean;
   s3_enabled: boolean;
   gmail_sender: string;
+  demo_mode: boolean;
 };
 
 const tabs = ["Dashboard", "Outbox", "Companies/Leads", "Settings"] as const;
@@ -125,6 +126,7 @@ export default function App() {
   };
 
   const sendDisabled = settings ? !settings.enable_sending : true;
+  const demoMode = settings?.demo_mode ?? false;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sand via-white to-slate-200">
@@ -148,6 +150,11 @@ export default function App() {
       </header>
 
       <main className="mx-auto max-w-6xl px-6 pb-16">
+        {demoMode && (
+          <div className="mb-6 rounded-2xl border border-indigo-200 bg-indigo-50 px-4 py-3 text-sm font-semibold text-indigo-700">
+            DEMO MODE ENABLED
+          </div>
+        )}
         <nav className="mb-8 flex flex-wrap gap-3">
           {tabs.map((tab) => (
             <button
@@ -169,7 +176,7 @@ export default function App() {
               <div className="grid gap-4 md:grid-cols-3">
                 <div className="rounded-2xl bg-white p-4 shadow">
                   <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Companies</div>
-                  <div className="text-3xl font-semibold">{stats?.companies ?? "—"}</div>
+                  <div className="text-3xl font-semibold">{stats?.companies ?? "--"}</div>
                 </div>
                 <div className="rounded-2xl bg-white p-4 shadow">
                   <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Leads (ready)</div>
@@ -188,7 +195,7 @@ export default function App() {
                       Object.entries(stats.last_runs).map(([key, value]) => (
                         <li key={key} className="flex items-center justify-between">
                           <span className="font-medium">{key}</span>
-                          <span>{value ? new Date(value).toLocaleString() : "—"}</span>
+                          <span>{value ? new Date(value).toLocaleString() : "--"}</span>
                         </li>
                       ))}
                   </ul>
@@ -201,7 +208,7 @@ export default function App() {
                         <span>{entry.action}</span>
                         <span>{new Date(entry.created_at).toLocaleTimeString()}</span>
                       </li>
-                    )) ?? <li>—</li>}
+                    )) ?? <li>--</li>}
                   </ul>
                 </div>
               </div>
@@ -220,6 +227,18 @@ export default function App() {
                 }}
               >
                 Run pipeline once
+              </button>
+              <button
+                type="button"
+                className="btn-muted"
+                onClick={() => {
+                  setError(null);
+                  apiPost("/api/demo/seed", token)
+                    .then(() => setPipelineStatus(`demo data seeded at ${new Date().toLocaleTimeString()}`))
+                    .catch((err) => setError(err.message));
+                }}
+              >
+                Seed demo data
               </button>
               {pipelineStatus && (
                 <div className="text-xs text-slate-500">Pipeline: {pipelineStatus}</div>
@@ -302,7 +321,7 @@ export default function App() {
                   </div>
                   <div className="space-y-1">
                     <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Personalization</div>
-                    <div>{outboxDetail.personalization_fact ?? "—"}</div>
+                    <div>{outboxDetail.personalization_fact ?? "--"}</div>
                   </div>
                   <div className="flex flex-wrap gap-3">
                     <button
@@ -367,9 +386,9 @@ export default function App() {
                   <li key={company.id} className="rounded-xl border border-slate-200 bg-white p-3">
                     <div className="font-semibold">{company.name}</div>
                     <div className="text-xs text-slate-500">
-                      {company.industry ?? "—"} · {company.region ?? "—"}
+                      {company.industry ?? "--"} · {company.region ?? "--"}
                     </div>
-                    <div className="text-xs text-slate-500">{company.website_url ?? "—"}</div>
+                    <div className="text-xs text-slate-500">{company.website_url ?? "--"}</div>
                   </li>
                 ))}
               </ul>
@@ -380,7 +399,7 @@ export default function App() {
                 {leads.map((lead) => (
                   <li key={lead.id} className="rounded-xl border border-slate-200 bg-white p-3">
                     <div className="font-semibold">{lead.company_name}</div>
-                    <div className="text-xs text-slate-500">{lead.contact_email ?? "—"}</div>
+                    <div className="text-xs text-slate-500">{lead.contact_email ?? "--"}</div>
                     <div className="text-xs uppercase text-slate-400">
                       {lead.status} · {lead.contact_status}
                     </div>
@@ -405,7 +424,11 @@ export default function App() {
               </div>
               <div className="rounded-xl border border-slate-200 bg-white p-4">
                 <div className="text-xs uppercase tracking-[0.2em] text-slate-400">Sender</div>
-                <div className="text-lg font-semibold">{settings?.gmail_sender ?? "—"}</div>
+                <div className="text-lg font-semibold">{settings?.gmail_sender ?? "--"}</div>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-white p-4">
+                <div className="text-xs uppercase tracking-[0.2em] text-slate-400">DEMO_MODE</div>
+                <div className="text-lg font-semibold">{settings?.demo_mode ? "true" : "false"}</div>
               </div>
             </div>
           </section>

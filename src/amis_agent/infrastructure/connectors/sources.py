@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from amis_agent.infrastructure.connectors.directory_scraper import DirectoryScrapeConfig, GenericDirectoryConnector
+from amis_agent.infrastructure.connectors.static_seed import build_seed_connector
 
 
 @dataclass(frozen=True)
@@ -13,6 +14,15 @@ class SourceConfig:
 
 def build_connectors() -> list[SourceConfig]:
     sources: list[SourceConfig] = []
+
+    seed_connector = build_seed_connector()
+    if seed_connector.seeds:
+        sources.append(
+            SourceConfig(
+                name="seed_static",
+                connector=seed_connector,
+            )
+        )
 
     sources.append(
         SourceConfig(

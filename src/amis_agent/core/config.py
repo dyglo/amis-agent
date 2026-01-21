@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     send_queue_name: str = Field(default="send", alias="SEND_QUEUE_NAME")
     enable_sending: bool = Field(default=False, alias="ENABLE_SENDING")
     admin_token: str = Field(default="", alias="ADMIN_TOKEN")
+    demo_mode: bool = Field(default=False, alias="DEMO_MODE")
 
     llm_base_url: str = Field(default="https://api.openai.com", alias="LLM_BASE_URL")
     llm_api_key: str = Field(default="", alias="LLM_API_KEY")
@@ -55,6 +56,8 @@ class Settings(BaseSettings):
     scrape_timeout_s: int = Field(default=20, alias="SCRAPE_TIMEOUT_S")
     scrape_rate_limit_per_host: int = Field(default=1, alias="SCRAPE_RATE_LIMIT_PER_HOST")
     scrape_allowed_domains: str = Field(default="", alias="SCRAPE_ALLOWED_DOMAINS")
+    discovery_seed_enabled: bool = Field(default=True, alias="DISCOVERY_SEED_ENABLED")
+    discovery_seed_path: str = Field(default="config/discovery_seed.json", alias="DISCOVERY_SEED_PATH")
 
     qualify_allowed_sources: str = Field(default="", alias="QUALIFY_ALLOWED_SOURCES")
     qualify_allowed_domains: str = Field(default="", alias="QUALIFY_ALLOWED_DOMAINS")

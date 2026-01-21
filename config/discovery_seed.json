@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Adobe",
+    "website_url": "https://www.adobe.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "Atlassian",
+    "website_url": "https://www.atlassian.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "Cisco",
+    "website_url": "https://www.cisco.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "HubSpot",
+    "website_url": "https://www.hubspot.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "IBM",
+    "website_url": "https://www.ibm.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "Intuit",
+    "website_url": "https://www.intuit.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "Oracle",
+    "website_url": "https://www.oracle.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "Salesforce",
+    "website_url": "https://www.salesforce.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "Shopify",
+    "website_url": "https://www.shopify.com",
+    "region": "US",
+    "source": "seed_static"
+  },
+  {
+    "name": "Twilio",
+    "website_url": "https://www.twilio.com",
+    "region": "US",
+    "source": "seed_static"
+  }
+]

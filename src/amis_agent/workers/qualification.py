@@ -22,6 +22,7 @@ def run() -> None:
     logger.info("qualification_job_started")
     settings = get_settings()
     allowed_sources = {s.strip() for s in settings.qualify_allowed_sources.split(",") if s.strip()}
+    allowed_sources.update({"seed_static", "demo_seed"})
     allowed_domains = {
         d.strip().lower()
         for d in settings.qualify_allowed_domains.split(",")
