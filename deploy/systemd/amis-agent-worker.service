@@ -1,0 +1,14 @@
+[Unit]
+Description=AMIS Agent RQ Worker
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/amis-agent
+ExecStart=/opt/amis-agent/.venv/bin/rq worker discover qualify enrich outreach send_outbox
+Restart=always
+RestartSec=5
+EnvironmentFile=/opt/amis-agent/.env
+
+[Install]
+WantedBy=multi-user.target

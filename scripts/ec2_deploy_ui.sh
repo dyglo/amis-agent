@@ -45,9 +45,15 @@ sudo cp "$REPO_DIR/deploy/systemd/amis-agent-api.service" /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now amis-agent-api
 
+echo "Install systemd service for worker"
+sudo cp "$REPO_DIR/deploy/systemd/amis-agent-worker.service" /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now amis-agent-worker
+
 echo "Restart services"
 sudo systemctl restart amis-agent-scheduler
 sudo systemctl restart amis-agent-api
+sudo systemctl restart amis-agent-worker
 sudo systemctl restart nginx
 
 echo "Done"
