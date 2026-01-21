@@ -71,6 +71,7 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [settings, setSettings] = useState<SettingsView | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [pipelineStatus, setPipelineStatus] = useState<string>("");
 
   const tokenLabel = useMemo(() => (token ? "Admin token loaded" : "Missing admin token"), [token]);
 
@@ -212,13 +213,17 @@ export default function App() {
                 className="btn"
                 onClick={() => {
                   setError(null);
+                  setPipelineStatus(`triggered at ${new Date().toLocaleTimeString()}`);
                   apiPost("/api/run/pipeline", token)
-                    .then(() => void 0)
+                    .then(() => setPipelineStatus(`enqueued at ${new Date().toLocaleTimeString()}`))
                     .catch((err) => setError(err.message));
                 }}
               >
                 Run pipeline once
               </button>
+              {pipelineStatus && (
+                <div className="text-xs text-slate-500">Pipeline: {pipelineStatus}</div>
+              )}
               <button className="btn-muted" onClick={() => window.location.reload()}>
                 Refresh data
               </button>
