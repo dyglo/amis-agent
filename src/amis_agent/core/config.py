@@ -19,6 +19,7 @@ class Settings(BaseSettings):
     send_error_spike_limit: int = Field(default=5, alias="SEND_ERROR_SPIKE_LIMIT")
     send_error_window_s: int = Field(default=3600, alias="SEND_ERROR_WINDOW_S")
     send_queue_name: str = Field(default="send", alias="SEND_QUEUE_NAME")
+    enable_sending: bool = Field(default=False, alias="ENABLE_SENDING")
 
     llm_base_url: str = Field(default="https://api.openai.com", alias="LLM_BASE_URL")
     llm_api_key: str = Field(default="", alias="LLM_API_KEY")
@@ -44,6 +45,10 @@ class Settings(BaseSettings):
     google_redirect_uri: str = Field(default="http://localhost:8080/", alias="GOOGLE_REDIRECT_URI")
     gmail_sender: str = Field(alias="GMAIL_SENDER")
     google_oauth_mode: str | None = Field(default=None, alias="GOOGLE_OAUTH_MODE")
+
+    s3_enabled: bool = Field(default=False, alias="S3_ENABLED")
+    s3_bucket: str | None = Field(default=None, alias="S3_BUCKET")
+    aws_region: str | None = Field(default=None, alias="AWS_REGION")
 
     scrape_user_agent: str = Field(default="AMISAgentBot/1.0", alias="SCRAPE_USER_AGENT")
     scrape_timeout_s: int = Field(default=20, alias="SCRAPE_TIMEOUT_S")

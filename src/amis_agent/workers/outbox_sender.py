@@ -33,6 +33,9 @@ async def run_async() -> None:
     health = SendHealthMonitor()
     settings = get_settings()
     signature = load_signature()
+    if not settings.enable_sending:
+        logger.warning("send_disabled", reason="ENABLE_SENDING is false or missing")
+        return
     async with SessionLocal() as session:
         drafts = await fetch_approved(session)
         if health.is_paused():
@@ -59,6 +62,7 @@ async def run_async() -> None:
                 continue
             preflight = run_preflight(outbox=draft, lead=lead, company=company, signature=signature)
             preflight.details["sender_email"] = settings.gmail_sender
+            preflight.details["enable_sending"] = settings.enable_sending
             await log_audit(
                 session,
                 action="send_preflight",

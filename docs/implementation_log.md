@@ -35,6 +35,8 @@ This document captures what was implemented/changed so future agents can continu
   - word count <= 110,
   - personalization fact + source URL when provided.
 - Audit log captures preflight details.
+- Global send gate:
+  - `ENABLE_SENDING` must be true to send; otherwise sending is refused.
 - Sender enforcement:
   - `GMAIL_SENDER` is required.
   - Gmail profile email must match `GMAIL_SENDER`, else hard-fail.
@@ -81,8 +83,9 @@ Models added/updated:
   - `GOOGLE_OAUTH_MODE=manual`
 - For sender enforcement:
   - `GMAIL_SENDER=<email>`
+- Optional S3 wiring (off by default):
+  - `S3_ENABLED=false`, `S3_BUCKET=`, `AWS_REGION=`
 
 ## Latest manual send test
 - Manual OAuth code flow succeeded.
 - Send result: Gmail returned `labelIds: ['SENT']`.
-

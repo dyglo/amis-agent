@@ -44,6 +44,8 @@ def send_real_email(to_email: str, subject: str, body: str) -> SendResult:
 
 async def send_outbox_email(outbox_id: int) -> SendResult:
     settings = get_settings()
+    if not settings.enable_sending:
+        raise SystemExit("sending_disabled:ENABLE_SENDING is false or missing")
     signature = load_signature()
     sender = from_settings()
     async with SessionLocal() as session:
@@ -64,6 +66,7 @@ async def send_outbox_email(outbox_id: int) -> SendResult:
             raise SystemExit("lead_or_company_missing")
         preflight = run_preflight(outbox=draft, lead=lead, company=company, signature=signature)
         preflight.details["sender_email"] = settings.gmail_sender
+        preflight.details["enable_sending"] = settings.enable_sending
         await log_audit(
             session,
             action="send_preflight",
